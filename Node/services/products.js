@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const users = require(path.join(__dirname, "mockfile/users.json"));
-const { User } = require('../model')
+var fs = require('fs');
+const file = path.join(__dirname, "mockfile/users.json")
+const users = require(file);
 
 router.get('/get', (req, res, next) => {
 
@@ -13,25 +14,26 @@ router.get('/get', (req, res, next) => {
 })
 
 router.post('/post', (req, res, next) => {
-    // const { firstName, lastName, email } = req.body
-    // console.log(firstName, lastName, email);
+    console.log(req.body)
+    fs.readFile(file, 'utf8', function readFileCallback(err, data) {
+        if (err) {
+            console.log(err);
+            res.status(400).json({
+                data: "unable to process the request"
+            })
 
-    // User.create({
-    //     firstName: firstName,
-    //     lastName: lastName,
-    //     email: email
-    // }).then(response => {
-    //     res.status(200).send("products created")
-    //     console.log(response)
-    // }).catch(err => {
-    //     res.status(404).json({
-    //         error: "model is not created ",
-
-    //     })
-    //     console.log(err)
-    // })
-    // User.sync()
-    res.status(200).send("successfully connected")
+        } else {
+            obj = JSON.parse(data);
+            obj.users.push(req.body);
+            json = JSON.stringify(obj);
+            fs.writeFile(file, json, 'utf8', function (response) {
+                console.log(response)
+                res.status(200).json({
+                    data: "successfully stored in the file"
+                })
+            });
+        }
+    });
 
 })
 

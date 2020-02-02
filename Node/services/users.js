@@ -15,7 +15,6 @@ router.get('/get', (req, res) => {
 
 router.post('/post', (req, res) => {
     const { name, password, email, role, contact, createdBy, modifiedBy, isActive } = req.body
-    //    console.log(name, password, email, contact, createdBy, modifiedBy, isActive)
     Role.findAll({
         attributes: ['id'],
         where: {
@@ -34,10 +33,10 @@ router.post('/post', (req, res) => {
                 email: email,
                 isActive: isActive
             }).then(ac => {
-                res.status(404).json({
+                res.status(200).json({
                     message: "successfully created",
                     data: ac
-                }).catch(err => { console.log(err) })
+                })
 
             })
 

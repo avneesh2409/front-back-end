@@ -4,7 +4,7 @@ var bodyParser = require("body-parser");
 var products = require('./services/products')
 var users = require('./services/users')
 var postapi = require('./services/postapi');
-const port = 2002;
+var port = 2002;
 
 
 app.use(bodyParser.json());

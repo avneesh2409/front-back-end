@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Account, Role } = require('../model')
 const { sequelize } = require('../model/initialise')
+
 router.get('/get', (req, res) => {
     Account.findAll().then(r => {
         res.status(200).json({
